@@ -47,3 +47,7 @@ If it's checked, it will download the beatmaps with their respective videos if t
 If it remains unchecked, it will download the beatmaps with no video.
 
 After inputting everything, click on the `Download` button to begin the process. You'll be able to see updates on the beatmap files being added to the ZIP file as well as download progress.
+
+# Demo
+
+![osu! ZIP Demo Gif](https://i.imgur.com/fh39Zsr.gif)

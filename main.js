@@ -17,6 +17,7 @@ const addItem = (text, background, url) => {
     if (url) {
         var a = document.createElement('a')
         a.setAttribute('href', url)
+        a.setAttribute('target', '_blank')
         a.appendChild(div)
         fileStatus.appendChild(a)
     } else fileStatus.appendChild(div)
