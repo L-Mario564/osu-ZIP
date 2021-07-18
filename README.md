@@ -46,4 +46,4 @@ Unchecked by default.\
 If it's checked, it will download the beatmaps with their respective videos if they have one, keep in mind that this will lead to a lot larger files.\
 If it remains unchecked, it will download the beatmaps with no video.
 
-After inputting everything, you'll be able to see smal updates on beatmap files being added to the ZIP file. Once the `Downloading ZIP file` message appears, this means you'll just have to wait for the download to complete, it doesn't have a progress bar but it should finish downloading eventually and it will be added to your browsers download history, at that point you know the download has been successful.
+After inputting everything, click on the `Download` button to begin the process. You'll be able to see updates on the beatmap files being added to the ZIP file as well as download progress.

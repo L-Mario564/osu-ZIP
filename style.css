@@ -1,7 +1,13 @@
 body {
-    background-color: rgb(25, 25, 25);
+    background-color: rgb(25, 28, 30);
     color: white;
     font-family: 'Noto Sans KR', sans-serif;
+    margin: 2.5em 2em 1em 2em;
+}
+
+img {
+    width: 1.2em;
+    margin-right: 0.3em;
 }
 
 h1, p, div { text-align: center; }
@@ -10,42 +16,122 @@ h1 { font-size: 2.8em; }
 
 div { width: 100%; }
 
-a {
+#main a {
     text-decoration: none;
     color: rgb(140, 140, 140);
 }
 
-a:hover { color: rgb(200, 200, 200) }
+#main a:hover { color: rgb(200, 200, 200) }
+
+#zip-progress a {
+    text-decoration: none;
+    color: white;
+}
+
+#content {
+    display: grid;
+    grid-template-columns: 56% 2% 42%;
+    margin: auto;
+    max-width: 1285px;
+}
+
+#main {
+    background-color: rgba(255, 255, 255, 0.07);
+    height: 35em;
+    border: solid 2px rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
+}
+
+#main-content {
+    width: auto;
+    margin: auto 2.5em auto 2.5em;
+}
+
+#zip-progress {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: rgba(255, 255, 255, 0.07);
+    height: 35em;
+    border: solid 2px rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
+    scrollbar-width: none;
+}
+#zip-progress::-webkit-scrollbar { display: none; }
 
 #map-list, #zip-file-name {
-    width: 26em;
+    color: white;
+    width: 32em;
     height: 1.5em;
     margin: 0em auto 0em auto;
+    border: solid 2px rgba(0, 0, 0, 0.3);
+    border-radius: 7px;
+    background-color: rgba(0, 0, 0, 0.15);
 }
 
 #no-video { margin: 0em 0.7em 0em 0.7em; }
 
 #download {
-    width: 6em;
-    height: 1.8em;
+    width: 6.5em;
+    height: 2.25em;
     color: white;
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: rgb(60, 60, 60);
-    border: none;
+    background-color: rgb(0, 0, 0, 0.15);
+    border: solid 2px rgb(20, 23, 25);
     font-weight: bold;
     border-radius: 0.35em;
 }
 
-#download:hover { background-color: rgb(100, 100, 100); }
+#download:hover { background-color: rgb(255, 255, 255, 0.15); }
+
+#progress {
+    width: auto;
+    margin: 2em 2.5em 2em 2.5em;
+}
 
 .item {
     display: block;
-    width: 24em;
-    margin: 0.5em auto 0.5em auto;
-    padding: 0.5em 1.2em 0.5em 1.2em;
-    background-color: rgb(45, 45, 45);
+    width: auto;
+    margin: 0.6em auto 0.6em auto;
+    padding: 0.6em 2em 0.6em 2em;
+    background-color: rgba(0, 0, 0, 0.15);
+    border: solid 2px rgb(20, 23, 25);
     border-radius: 0.5em;
 
     animation-name: fadeInDown;
     animation-duration: 0.5s;
+}
+
+.item a {
+    animation-name: fadeInDown;
+    animation-duration: 0.5s;
+}
+
+.progress-bar {
+    height: 0.6em;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: solid 2px rgb(20, 23, 25);
+    border-radius: 0.3em;
+}
+
+.bar {
+    background-color: rgb(85, 88, 90);
+    width: 0%;
+    height: 100%;
+    border-radius: 0.3em;
+}
+
+.progress-details {
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
+.current-file {
+    text-align: left;
+    padding-top: 0.3em;
+    font-size: 0.75em;
+}
+
+.progress-percent {
+    text-align: right;
+    padding-top: 0.3em;
 }
