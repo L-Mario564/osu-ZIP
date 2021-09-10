@@ -1,26 +1,21 @@
 body {
-    background-color: rgb(25, 28, 30);
+    background-color: rgb(25, 29, 33);
     color: white;
     font-family: 'Noto Sans KR', sans-serif;
     margin: 2.5em 2em 1em 2em;
 }
-
 img {
     width: 1.2em;
     margin-right: 0.3em;
 }
-
 h1, p, div { text-align: center; }
-
 h1 { font-size: 2.8em; }
-
 div { width: 100%; }
 
 #main a {
     text-decoration: none;
     color: rgb(140, 140, 140);
 }
-
 #main a:hover { color: rgb(200, 200, 200) }
 
 #zip-progress a {
@@ -34,14 +29,12 @@ div { width: 100%; }
     margin: auto;
     max-width: 1285px;
 }
-
 #main {
     background-color: rgba(255, 255, 255, 0.07);
     height: 35em;
     border: solid 2px rgba(0, 0, 0, 0.75);
     border-radius: 15px;
 }
-
 #main-content {
     width: auto;
     margin: auto 2.5em auto 2.5em;
@@ -71,8 +64,7 @@ div { width: 100%; }
 #no-video { margin: 0em 0.7em 0em 0.7em; }
 
 #download {
-    width: 6.5em;
-    height: 2.25em;
+    padding: 0.4em 0.8em 0.4em 0.8em;
     color: white;
     font-family: 'Noto Sans KR', sans-serif;
     background-color: rgb(0, 0, 0, 0.15);
@@ -80,7 +72,6 @@ div { width: 100%; }
     font-weight: bold;
     border-radius: 0.35em;
 }
-
 #download:hover { background-color: rgb(255, 255, 255, 0.15); }
 
 #progress {
@@ -100,7 +91,6 @@ div { width: 100%; }
     animation-name: fadeInDown;
     animation-duration: 0.5s;
 }
-
 .item a {
     animation-name: fadeInDown;
     animation-duration: 0.5s;
@@ -112,25 +102,21 @@ div { width: 100%; }
     border: solid 2px rgb(20, 23, 25);
     border-radius: 0.3em;
 }
-
 .bar {
     background-color: rgb(85, 88, 90);
     width: 0%;
     height: 100%;
     border-radius: 0.3em;
 }
-
 .progress-details {
     display: grid;
     grid-template-columns: 60% 40%;
 }
-
 .current-file {
     text-align: left;
     padding-top: 0.3em;
     font-size: 0.75em;
 }
-
 .progress-percent {
     text-align: right;
     padding-top: 0.3em;
@@ -145,6 +131,7 @@ div { width: 100%; }
 @media screen and (max-width: 790px) {
     #content { display: block; }
     #main { margin-bottom: 1.5em; }
+
     .progress-details { grid-template-columns: 60% 40%; }
     .current-file { display: block; }
 }

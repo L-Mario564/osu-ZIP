@@ -4,7 +4,7 @@ const inputtedZipFileName = document.querySelector('#zip-file-name')
 const noVideoCheckbox = document.querySelector('#no-video')
 const fileStatus = document.querySelector('#progress')
 
-const addItem = (text, background, url) => {
+function addItem(text, background, url) {
     var div = document.createElement('div')
     div.setAttribute('class', 'item')
     var textnode = document.createTextNode(text)
@@ -23,7 +23,7 @@ const addItem = (text, background, url) => {
     } else fileStatus.appendChild(div)
 }
 
-const displayProgress = () => {
+function displayProgress() {
     var div = document.createElement('div')
     div.setAttribute('class', 'item')
 
@@ -72,18 +72,19 @@ dlButton.addEventListener('click', async () => {
 
     // Checks for empty values
     if (inputtedMaps.value == '') {
+        if (document.querySelector('#play-sfx').checked) playSFX('sfx/failed.wav', 1.8)
         addItem('Error: No maps to ZIP')
         dlButton.disabled = false
         return
     }
-
-    addItem('Creating the ZIP file')
 
     const zipFileName = (inputtedZipFileName.value == '') ? 'Mappack.zip' : inputtedZipFileName.value + '.zip'
     const maps = inputtedMaps.value
     const mapsArr = maps.split(', ')
     const mapSetIds = (mapsArr[0].includes('https://osu.ppy.sh/beatmapsets/')) ? getMapIds(mapsArr) : mapsArr
     const noVideo = (noVideoCheckbox.checked) ? true : false
+
+    addItem(`Creating "${zipFileName}"`)
 
     await createMapPack(zipFileName, mapSetIds, noVideo)
     await sleep(1000)
@@ -100,7 +101,7 @@ function getMapIds(mapUrls) {
     return mapSetIds
 }
 
-const getBeatmapFiles = async (setIdArr, noVideo, zipFileName) => {
+async function getBeatmapFiles(setIdArr, noVideo, zipFileName) {
     const files = []
     const fileNames = []
 
@@ -120,6 +121,7 @@ const getBeatmapFiles = async (setIdArr, noVideo, zipFileName) => {
             files.push(file)
             fileNames.push(fileName)
         } catch (err) {
+            if (document.querySelector('#play-sfx').checked) playSFX('sfx/failed.wav', 1.8)
             addItem(`Error at fetching map: ${err}`)
             console.log(err)
         }
@@ -127,21 +129,25 @@ const getBeatmapFiles = async (setIdArr, noVideo, zipFileName) => {
     return [files, fileNames]
 }
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-
-function getFileName(url) {
-    var fileName = url.split('=')
-    return decodeURIComponent(fileName[1])
-}
-
 async function createMapPack(zipFileName, setIdArr, noVideo) {
+    document.title = 'osu! ZIP - Fetching files...'
+
     const zip = new JSZip()
     var files = await getBeatmapFiles(setIdArr, noVideo, zipFileName)
+
+    // If the ZIP file exceeds 1GB file size, it cancels the download
+    if ((files[0].reduce((prev, current) => prev + current.size, 0) / 1000000).toFixed(2) > 1000) {
+        playSFX('sfx/failed.wav', 1.8)
+        addItem('Error: Limit of 1GB file size has been exceeded')
+        return
+    }
+
+    document.title = 'osu! ZIP - Zipping...'
     
     for (i = 0; i < files[0].length; i++) {
         zip.file(files[1][i], files[0][i])
     }
-
+    
     await sleep(1000)
     displayProgress()
     const bar = document.querySelector('.bar')
@@ -149,18 +155,36 @@ async function createMapPack(zipFileName, setIdArr, noVideo) {
     const progressPercent = document.querySelector('.progress-percent')
 
     currentFile.innerHTML = 'Preparing to Download...'
-    await zip.generateAsync({ type: 'blob' }, metadata => {
-        var percent = metadata.percent.toFixed(2)
-        var file = metadata.currentFile  
 
-        if (file) {
-            var fileName = (file.length > 18) ? file.slice(0, 18) + '....osz' : file
-            currentFile.innerHTML = `Downloaded "${fileName}"`
-        } else currentFile.innerHTML = ''
+    try {
+        await zip.generateAsync({ type: 'blob' }, metadata => {
+            var percent = metadata.percent.toFixed(2)
+            var file = metadata.currentFile  
+    
+            if (file) {
+                var fileName = (file.length > 18) ? file.slice(0, 18) + '....osz' : file
+                currentFile.innerHTML = `Downloaded "${fileName}"`
+            } else currentFile.innerHTML = ''
+    
+            bar.style.width = `${percent}%`
+            progressPercent.innerHTML = `${percent}% Complete`
+            document.title = `osu! ZIP - ${Number(percent).toFixed(0)}%`
+    
+            if (percent > 99.99) currentFile.innerHTML = 'Download complete'
+        }).then(content => saveAs(content, zipFileName))
 
-        bar.style.width = `${percent}%`
-        progressPercent.innerHTML = `${percent}% Complete`
+        if (document.querySelector('#play-sfx').checked) playSFX('sfx/finished.mp3', 1.8)
+    } catch (err) {
+        currentFile.innerHTML = 'Error...'
+        bar.style.width = '0%'
+        progressPercent.innerHTML = ''
 
-        if (percent > 99.99) currentFile.innerHTML = 'Download complete'
-    }).then(content => saveAs(content, zipFileName))
+        if (document.querySelector('#play-sfx').checked) playSFX('sfx/failed.wav', 1.8)
+        addItem(`Error at downloading ZIP file: ${err}`)
+        console.log(err)
+    }
 }
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+const getFileName = url => decodeURIComponent(url.split('=')[1])
+const playSFX = (file, vol) => new Howl({src: [file], volume: vol}).play()
